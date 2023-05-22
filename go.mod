@@ -42,7 +42,7 @@ require (
 	github.com/onsi/ginkgo v1.16.5
 	github.com/openshift/api v0.0.0-20210315202829-4b79815405ec
 	github.com/openshift/client-go v0.0.0-20210112165513-ebc401615f47
-	github.com/oracle/oci-go-sdk/v65 v65.35.0
+	github.com/oracle/oci-go-sdk/v65 v65.38.0
 	github.com/ovh/go-ovh v1.1.0
 	github.com/pkg/errors v0.9.1
 	github.com/pluralsh/gqlclient v1.1.6

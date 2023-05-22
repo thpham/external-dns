@@ -134,6 +134,7 @@ type Config struct {
 	OCIConfigFile                      string
 	OCICompartmentOCID                 string
 	OCIAuthInstancePrincipal           bool
+	OCIAuthWorkloadPrincipal           bool
 	InMemoryZones                      []string
 	OVHEndpoint                        string
 	OVHApiRateLimit                    int
@@ -511,6 +512,7 @@ func (cfg *Config) ParseFlags(args []string) error {
 	app.Flag("oci-config-file", "When using the OCI provider, specify the OCI configuration file (required when --provider=oci").Default(defaultConfig.OCIConfigFile).StringVar(&cfg.OCIConfigFile)
 	app.Flag("oci-compartment-ocid", "When using the OCI provider, specify the OCID of the OCI compartment containing all managed zones and records.  Required when using OCI IAM instance principal authentication.").StringVar(&cfg.OCICompartmentOCID)
 	app.Flag("oci-auth-instance-principal", "When using the OCI provider, specify whether OCI IAM instance principal authentication should be used (instead of key-based auth via the OCI config file).").Default(strconv.FormatBool(defaultConfig.OCIAuthInstancePrincipal)).BoolVar(&cfg.OCIAuthInstancePrincipal)
+	app.Flag("oci-auth-workload-principal", "When using the OCI provider, specify whether OCI IAM workload principal authentication should be used (instead of key-based auth via the OCI config file).").Default(strconv.FormatBool(defaultConfig.OCIAuthWorkloadPrincipal)).BoolVar(&cfg.OCIAuthWorkloadPrincipal)
 	app.Flag("rcodezero-txt-encrypt", "When using the Rcodezero provider with txt registry option, set if TXT rrs are encrypted (default: false)").Default(strconv.FormatBool(defaultConfig.RcodezeroTXTEncrypt)).BoolVar(&cfg.RcodezeroTXTEncrypt)
 	app.Flag("inmemory-zone", "Provide a list of pre-configured zones for the inmemory provider; specify multiple times for multiple zones (optional)").Default("").StringsVar(&cfg.InMemoryZones)
 	app.Flag("ovh-endpoint", "When using the OVH provider, specify the endpoint (default: ovh-eu)").Default(defaultConfig.OVHEndpoint).StringVar(&cfg.OVHEndpoint)

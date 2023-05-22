@@ -325,6 +325,9 @@ func main() {
 				authConfig := oci.OCIAuthConfig{UseInstancePrincipal: true}
 				config = &oci.OCIConfig{Auth: authConfig, CompartmentID: cfg.OCICompartmentOCID}
 			}
+		} else if cfg.OCIAuthWorkloadPrincipal {
+			authConfig := oci.OCIAuthConfig{UseWorkloadPrincipal: true}
+			config = &oci.OCIConfig{Auth: authConfig, CompartmentID: cfg.OCICompartmentOCID}
 		} else {
 			config, err = oci.LoadOCIConfig(cfg.OCIConfigFile)
 		}

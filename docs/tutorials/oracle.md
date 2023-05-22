@@ -68,6 +68,40 @@ the compartment containing the zone to be managed.
 For more information about OCI IAM instance principals, see the documentation [here][2].
 For more information about OCI IAM policy details for the DNS service, see the documentation [here][3].
 
+### OCI OKE Workloads Identity Principal
+
+A workload running on a Kubernetes cluster is considered a resource in its own right.
+A workload resource is identified by the unique combination of cluster, namespace, and service account.
+This unique combination is referred to as the workload identity.
+You can use the workload identity when defining IAM policies to grant fine-grained access to other OCI resources.
+
+First, you'll also need to add the `--oci-auth-workload-principal` flag to enable
+this type of authentication. Finally, you'll need to set the following environment variables
+in the deployment.
+
+For example, here are the Helm values to override:
+
+```yaml
+provider: oci
+extraArgs:
+- '--oci-auth-workload-principal'
+- '--oci-compartment-ocid=ocid1.compartment.oc1...'
+env:
+- name: OCI_RESOURCE_PRINCIPAL_VERSION
+  value: '2.2'
+- name: OCI_RESOURCE_PRINCIPAL_REGION
+  value: 'eu-zurich-1'
+```
+
+
+The following is an example of policy statement:
+
+```txt
+Allow any-user to manage dns in compartment id <compartment_ocid> where all { request.principal.type = 'workload', request.principal.namespace = 'external-dns', request.principal.service_account = 'external-dns', request.principal.cluster_id = 'ocid1.cluster.oc1...' }
+```
+
+For more information about OCI OKE workload identity principal, see the documentation [here][4].
+
 ## Manifest (for clusters with RBAC enabled)
 
 Apply the following manifest to deploy ExternalDNS.
@@ -192,4 +226,5 @@ $ kubectl apply -f nginx.yaml
 [1]: https://docs.cloud.oracle.com/iaas/Content/DNS/Concepts/dnszonemanagement.htm
 [2]: https://docs.cloud.oracle.com/iaas/Content/Identity/Reference/dnspolicyreference.htm
 [3]: https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/callingservicesfrominstances.htm
+[4]: https://docs.cloud.oracle.com/iaas/Content/ContEng/Tasks/contenggrantingworkloadaccesstoresources.htm
 
